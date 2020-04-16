@@ -7,6 +7,39 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+    const canvas = document.querySelector('#draw')
+    const ctx = canvas.getContext('2d')
+    canvas.width = 1200
+    canvas.height = 800
+
+  ctx.strokeStyle = '#BADASS'
+  ctx.lineJoin = 'round'
+  ctx.lineCap = 'round'
+  ctx.lineWidth = 10
+
+  let isDrawing = false
+  let lastX
+  let lastY
+
+  function draw(e) {
+  if (!isDrawing) {return} //don't draw if mouse isn't down
+  ctx.beginPath()
+  ctx.moveTo(lastX, lastY) //start here
+  ctx.lineTo(e.offsetX, e.offsetY) //go to here
+  ctx.stroke() //color the line
+  lastX = e.offsetX //reset starting position
+  lastY = e.offsetY
+}
+
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true
+    lastX = e.offsetX
+    lastY = e.offsetY
+  })
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('mouseup', () => {isDrawing = false})
+  canvas.addEventListener('mouseout', () => {isDrawing = false}) //handling reentering of canvas
+
 </script>
 
 <style>
